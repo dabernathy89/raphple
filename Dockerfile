@@ -1,7 +1,7 @@
 FROM php:7.0-cli
 
 # install ev
-RUN pecl install ev
+RUN docker-php-ext-install -j$(nproc) pdo pdo_mysql && pecl install ev
 
 # Install Composer
 RUN curl https://getcomposer.org/composer.phar > /usr/sbin/composer

@@ -2,6 +2,7 @@
   "name": "iansltx/raphple",
   "description": "PHP Raffler with Twilio",
   "license": "BSD-2-Clause",
+  "minimum-stability": "dev",
   "authors": [
     {
       "name": "Ian Littman",
@@ -11,7 +12,7 @@
   "require": {
     "pimple/pimple": "^3.0",
     "nikic/fast-route": "^1.0",
-    "icicleio/http": "^0.3.0",
+    "icicleio/http": "dev-master@dev",
     "aura/sql": "^2.5"
   }
 }

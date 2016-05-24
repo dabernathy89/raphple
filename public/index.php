@@ -23,13 +23,22 @@ $server = new Server(new class ($dispatcher) implements RequestHandler {
         /** @var \FastRoute\Dispatcher $dispatcher */
         $dispatcher = $this->dispatcher;
         $routeInfo = $dispatcher->dispatch($request->getMethod(), $request->getUri()->getPath());
+
+        if (isset($routeInfo[2]['id']) && strpos($routeInfo[2]['id'], '.') !== false) { // 404 for static files
+            return $this->onError(404, $socket);
+        }
+
         switch ($routeInfo[0]) {
             case \FastRoute\Dispatcher::NOT_FOUND:
                 return $this->onError(404, $socket);
             case \FastRoute\Dispatcher::METHOD_NOT_ALLOWED;
                 return $this->onError(405, $socket);
             case \FastRoute\Dispatcher::FOUND:
-                return call_user_func($routeInfo[1], $request, new BasicResponse(), $routeInfo[2]);
+                $res = call_user_func($routeInfo[1], $request, new BasicResponse(), $routeInfo[2]);
+                while ($res instanceof Generator) {
+                    $res = yield from $res;
+                }
+                return $res;
         }
     }
 

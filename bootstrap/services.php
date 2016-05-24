@@ -104,7 +104,7 @@ class Auth
     }
     public function isAuthorized(Request $req, $id) {
         $sid = $this->rs->getSid($id);
-        return $sid === $req->getCookie('sid' . $id) || $sid === $req->getUri()->getQueryValue('sid');
+        return $sid === $req->getCookie('sid' . $id)->getValue() || $sid === $req->getUri()->getQueryValue('sid');
     }
 }
 return function(\Pimple\Container $container, $env) {

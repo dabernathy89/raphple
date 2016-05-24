@@ -4,12 +4,12 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "a09061449f5a186b2e3fbb25b9c6e0b4",
-    "content-hash": "7bb5d0521c4c6075a11c641b1a30262a",
+    "hash": "da43d053723fb04b43b047f59019e4a2",
+    "content-hash": "3d538b2c86a8afa4d037bdf786e96e05",
     "packages": [
         {
             "name": "aura/sql",
-            "version": "2.5.0",
+            "version": "2.x-dev",
             "source": {
                 "type": "git",
                 "url": "https://github.com/auraphp/Aura.Sql.git",
@@ -95,30 +95,34 @@
         },
         {
             "name": "icicleio/dns",
-            "version": "v0.6.0",
+            "version": "dev-master",
             "source": {
                 "type": "git",
                 "url": "https://github.com/icicleio/dns.git",
-                "reference": "d08dec5d7a7a59b75c97ab0e812542f41a36f980"
+                "reference": "31ca939e2661f87bd807c54be0e7ad1762a5b14a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/icicleio/dns/zipball/d08dec5d7a7a59b75c97ab0e812542f41a36f980",
-                "reference": "d08dec5d7a7a59b75c97ab0e812542f41a36f980",
+                "url": "https://api.github.com/repos/icicleio/dns/zipball/31ca939e2661f87bd807c54be0e7ad1762a5b14a",
+                "reference": "31ca939e2661f87bd807c54be0e7ad1762a5b14a",
                 "shasum": ""
             },
             "require": {
                 "daverandom/libdns": "^1",
-                "icicleio/icicle": "^0.9.1",
-                "icicleio/socket": "^0.5",
-                "paragonie/random_compat": "^1"
+                "icicleio/icicle": "~2.0",
+                "icicleio/socket": "~2.0"
             },
             "require-dev": {
-                "mockery/mockery": "^0.9",
-                "phpunit/phpunit": "^4.6",
+                "mockery/mockery": "~1.0",
+                "phpunit/phpunit": "~5.0",
                 "symfony/yaml": "^2.7"
             },
             "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "2.0.x-dev"
+                }
+            },
             "autoload": {
                 "psr-4": {
                     "Icicle\\Dns\\": "src"
@@ -145,35 +149,39 @@
                 "dns",
                 "resolver"
             ],
-            "time": "2015-12-07 05:30:21"
+            "time": "2015-12-07 05:49:04"
         },
         {
             "name": "icicleio/http",
-            "version": "v0.3.0",
+            "version": "dev-master",
             "source": {
                 "type": "git",
                 "url": "https://github.com/icicleio/http.git",
-                "reference": "0681d283612c519992b61d0a84d3b7d1444fe7c6"
+                "reference": "efd477d9d3b6f10a8e9aab7653ec9cfc4e463971"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/icicleio/http/zipball/0681d283612c519992b61d0a84d3b7d1444fe7c6",
-                "reference": "0681d283612c519992b61d0a84d3b7d1444fe7c6",
+                "url": "https://api.github.com/repos/icicleio/http/zipball/efd477d9d3b6f10a8e9aab7653ec9cfc4e463971",
+                "reference": "efd477d9d3b6f10a8e9aab7653ec9cfc4e463971",
                 "shasum": ""
             },
             "require": {
-                "icicleio/dns": "^0.6",
-                "icicleio/icicle": "^0.9.1",
-                "icicleio/log": "^0.1",
-                "icicleio/socket": "^0.5.2",
-                "icicleio/stream": "^0.5.3"
+                "icicleio/dns": "^2.0",
+                "icicleio/icicle": "^2.0",
+                "icicleio/log": "^2.0",
+                "icicleio/socket": "^2.0",
+                "icicleio/stream": "^2.0"
             },
             "require-dev": {
-                "mockery/mockery": "^0.9",
-                "phpunit/phpunit": "^4.8",
+                "phpunit/phpunit": "^5.0",
                 "symfony/yaml": "^2.7"
             },
             "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "2.0.x-dev"
+                }
+            },
             "autoload": {
                 "psr-4": {
                     "Icicle\\Http\\": "src"
@@ -199,33 +207,38 @@
                 "asynchronous",
                 "http"
             ],
-            "time": "2016-03-08 23:37:25"
+            "time": "2016-04-21 15:32:01"
         },
         {
             "name": "icicleio/icicle",
-            "version": "v0.9.6",
+            "version": "dev-master",
             "source": {
                 "type": "git",
                 "url": "https://github.com/icicleio/icicle.git",
-                "reference": "84a3cc6f7dc38500f4ed9bdae79f458d191cb119"
+                "reference": "6ece7226e625ebd363ed301ccd92dabb36183777"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/icicleio/icicle/zipball/84a3cc6f7dc38500f4ed9bdae79f458d191cb119",
-                "reference": "84a3cc6f7dc38500f4ed9bdae79f458d191cb119",
+                "url": "https://api.github.com/repos/icicleio/icicle/zipball/6ece7226e625ebd363ed301ccd92dabb36183777",
+                "reference": "6ece7226e625ebd363ed301ccd92dabb36183777",
                 "shasum": ""
             },
             "require": {
-                "php": "^5.5|^7.0"
+                "php": "^7.0"
             },
             "require-dev": {
-                "phpunit/phpunit": "^4.6"
+                "phpunit/phpunit": "^5.0"
             },
             "suggest": {
                 "ext-ev": "Provides an event loop with better performance.",
                 "ext-pcntl": "Enables custom signal handling."
             },
             "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "2.0.x-dev"
+                }
+            },
             "autoload": {
                 "psr-4": {
                     "Icicle\\": "src"
@@ -265,30 +278,35 @@
                 "server",
                 "stream"
             ],
-            "time": "2016-03-31 16:34:26"
+            "time": "2016-03-31 16:38:31"
         },
         {
             "name": "icicleio/log",
-            "version": "v0.1.0",
+            "version": "dev-master",
             "source": {
                 "type": "git",
                 "url": "https://github.com/icicleio/log.git",
-                "reference": "2aab1b70831268cb09ad1a1e40f79dbd7697684d"
+                "reference": "464acf8363d97b94fa2ddaa94525d96311365dd2"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/icicleio/log/zipball/2aab1b70831268cb09ad1a1e40f79dbd7697684d",
-                "reference": "2aab1b70831268cb09ad1a1e40f79dbd7697684d",
+                "url": "https://api.github.com/repos/icicleio/log/zipball/464acf8363d97b94fa2ddaa94525d96311365dd2",
+                "reference": "464acf8363d97b94fa2ddaa94525d96311365dd2",
                 "shasum": ""
             },
             "require": {
-                "icicleio/icicle": "^0.9",
-                "icicleio/stream": "^0.5"
+                "icicleio/icicle": "^2.0",
+                "icicleio/stream": "^2.0"
             },
             "require-dev": {
-                "phpunit/phpunit": "^4.8"
+                "phpunit/phpunit": "^5.0"
             },
             "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "2.0.x-dev"
+                }
+            },
             "autoload": {
                 "psr-4": {
                     "Icicle\\Log\\": "src"
@@ -314,33 +332,38 @@
                 "asynchronous",
                 "log"
             ],
-            "time": "2016-02-12 16:04:54"
+            "time": "2016-02-18 06:24:55"
         },
         {
             "name": "icicleio/socket",
-            "version": "v0.5.3",
+            "version": "dev-master",
             "source": {
                 "type": "git",
                 "url": "https://github.com/icicleio/socket.git",
-                "reference": "0618bdbd328652ef517165ba688d306cdef1d6e9"
+                "reference": "4e6ed6db8ef9d1517a4e19cb15aa659c82fdb978"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/icicleio/socket/zipball/0618bdbd328652ef517165ba688d306cdef1d6e9",
-                "reference": "0618bdbd328652ef517165ba688d306cdef1d6e9",
+                "url": "https://api.github.com/repos/icicleio/socket/zipball/4e6ed6db8ef9d1517a4e19cb15aa659c82fdb978",
+                "reference": "4e6ed6db8ef9d1517a4e19cb15aa659c82fdb978",
                 "shasum": ""
             },
             "require": {
-                "icicleio/icicle": "^0.9.1",
-                "icicleio/stream": "^0.5.4"
+                "icicleio/icicle": "~2.0",
+                "icicleio/stream": "~2.0"
             },
             "require-dev": {
-                "phpunit/phpunit": "^4.6"
+                "phpunit/phpunit": "~5.0"
             },
             "suggest": {
                 "ext-openssl": "Enables using SSL/TLS on stream sockets."
             },
             "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "2.0.x-dev"
+                }
+            },
             "autoload": {
                 "psr-4": {
                     "Icicle\\Socket\\": "src"
@@ -369,32 +392,37 @@
                 "server",
                 "stream"
             ],
-            "time": "2015-12-30 05:41:49"
+            "time": "2016-05-17 21:50:19"
         },
         {
             "name": "icicleio/stream",
-            "version": "v0.5.5",
+            "version": "dev-master",
             "source": {
                 "type": "git",
                 "url": "https://github.com/icicleio/stream.git",
-                "reference": "f9bce748b233d583c4b385a1b247f7be8fb69c24"
+                "reference": "a5d80f39a99dfadf02a1e9fc7d11d3fc31c42865"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/icicleio/stream/zipball/f9bce748b233d583c4b385a1b247f7be8fb69c24",
-                "reference": "f9bce748b233d583c4b385a1b247f7be8fb69c24",
+                "url": "https://api.github.com/repos/icicleio/stream/zipball/a5d80f39a99dfadf02a1e9fc7d11d3fc31c42865",
+                "reference": "a5d80f39a99dfadf02a1e9fc7d11d3fc31c42865",
                 "shasum": ""
             },
             "require": {
-                "icicleio/icicle": "^0.9.1"
+                "icicleio/icicle": "~2.0"
             },
             "require-dev": {
-                "phpunit/phpunit": "^4.6"
+                "phpunit/phpunit": "~5.0"
             },
             "suggest": {
                 "ext-mbstring": "Enables encoding-aware text stream reading."
             },
             "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "2.0.x-dev"
+                }
+            },
             "autoload": {
                 "psr-4": {
                     "Icicle\\Stream\\": "src"
@@ -420,7 +448,7 @@
                 "asynchronous",
                 "stream"
             ],
-            "time": "2016-02-21 19:16:19"
+            "time": "2016-02-21 19:19:43"
         },
         {
             "name": "nikic/fast-route",
@@ -466,65 +494,17 @@
             "time": "2016-04-18 11:33:20"
         },
         {
-            "name": "paragonie/random_compat",
-            "version": "v1.4.1",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/paragonie/random_compat.git",
-                "reference": "c7e26a21ba357863de030f0b9e701c7d04593774"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/paragonie/random_compat/zipball/c7e26a21ba357863de030f0b9e701c7d04593774",
-                "reference": "c7e26a21ba357863de030f0b9e701c7d04593774",
-                "shasum": ""
-            },
-            "require": {
-                "php": ">=5.2.0"
-            },
-            "require-dev": {
-                "phpunit/phpunit": "4.*|5.*"
-            },
-            "suggest": {
-                "ext-libsodium": "Provides a modern crypto API that can be used to generate random bytes."
-            },
-            "type": "library",
-            "autoload": {
-                "files": [
-                    "lib/random.php"
-                ]
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Paragon Initiative Enterprises",
-                    "email": "security@paragonie.com",
-                    "homepage": "https://paragonie.com"
-                }
-            ],
-            "description": "PHP 5.x polyfill for random_bytes() and random_int() from PHP 7",
-            "keywords": [
-                "csprng",
-                "pseudorandom",
-                "random"
-            ],
-            "time": "2016-03-18 20:34:03"
-        },
-        {
             "name": "pimple/pimple",
-            "version": "v3.0.2",
+            "version": "dev-master",
             "source": {
                 "type": "git",
                 "url": "https://github.com/silexphp/Pimple.git",
-                "reference": "a30f7d6e57565a2e1a316e1baf2a483f788b258a"
+                "reference": "64e0f8320639b434baa073a40dd1e037e3286555"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/silexphp/Pimple/zipball/a30f7d6e57565a2e1a316e1baf2a483f788b258a",
-                "reference": "a30f7d6e57565a2e1a316e1baf2a483f788b258a",
+                "url": "https://api.github.com/repos/silexphp/Pimple/zipball/64e0f8320639b434baa073a40dd1e037e3286555",
+                "reference": "64e0f8320639b434baa073a40dd1e037e3286555",
                 "shasum": ""
             },
             "require": {
@@ -557,13 +537,15 @@
                 "container",
                 "dependency injection"
             ],
-            "time": "2015-09-11 15:10:35"
+            "time": "2015-09-11 15:11:22"
         }
     ],
     "packages-dev": [],
     "aliases": [],
-    "minimum-stability": "stable",
-    "stability-flags": [],
+    "minimum-stability": "dev",
+    "stability-flags": {
+        "icicleio/http": 20
+    },
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": [],

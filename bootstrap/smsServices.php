@@ -20,14 +20,15 @@ class TwilioSMS implements SMS
 
     public function send($to, $text)
     {
-        return (new \Icicle\Http\Client\Client())->request(
-            'POST', 'https://api.twilio.com/2010-04-01/Accounts/' . $this->sid . '/Messages.json',
-            ['Authorization' => base64_encode($htis->sid . ':' . $this->token)],
-            new \Icicle\Stream\MemoryStream(0, http_build_query([
+        return new Icicle\Coroutine\Coroutine((new \Icicle\Http\Client\Client())->request(
+            'POST', 'https://api.twilio.com/2010-04-01/Accounts/' . $this->sid . '/Messages.json', [
+                'Authorization' => 'Basic' . base64_encode($htis->sid . ':' . $this->token),
+                'Content-type' => 'application/x-www-form-urlencoded'
+            ], new \Icicle\Stream\MemorySink(http_build_query([
                 'To' => $to,
                 'From' => $this->fromNumber,
                 'Body' => $text
-            ])));
+            ]))));
     }
 }
 
@@ -46,14 +47,17 @@ class NexmoSMS implements SMS
 
     public function send($to, $text)
     {
-        return (new \Icicle\Http\Client\Client())->request(
-            'GET', 'https://rest.nexmo.com/sms/json?' . http_build_query([
+        return new Icicle\Coroutine\Coroutine((new \Icicle\Http\Client\Client())->request(
+            'POST', 'https://rest.nexmo.com/sms/json?' . http_build_query([
                 'api_key' => $this->key,
                 'api_secret' => $this->secret,
+            ]), [
+            'Content-type' => 'application/x-www-form-urlencoded'
+            ], new \Icicle\Stream\MemorySink(http_build_query([
                 'to' => $to,
                 'from' => $this->fromNumber,
                 'text' => $text
-            ]));
+            ]))));
     }
 }
 
