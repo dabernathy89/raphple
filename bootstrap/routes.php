@@ -1,47 +1,50 @@
 <?php
 
-use Aerys\Request;
-use Aerys\Response;
+use Icicle\Http\Message\{Request, BasicResponse as Response};
 
-return function(\Pimple\Container $c, \Aerys\Router $app) {
+return function(\FastRoute\RouteCollector $app) use ($c) {
     // incoming SMS webhooks
 
-    $app->route('POST', '/twilio', function (Request $req, Response $res) use ($c) {
+    $app->addRoute('POST', '/twilio', function (Request $req, Response $res) use ($c) {
         /** @var RaffleService $rs */
         $rs = $c['raffleService'];
-        /** @var \Aerys\ParsedBody $body */
-        $body = yield Aerys\parseBody($req, 4096);
+        parse_str(yield $req->getBody()->read(4096), $body);
 
-        if (yield from $rs->recordEntry($body->get('Body'), $body->get('From')))
-            return $res->end("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<Response>
-            <Message>Your entry into " . yield from $rs->getNameByCode($body->get('Body')) . " has been received!</Message>
+        if ($rs->recordEntry($body['Body'], $body['From'])) {
+            yield from $res->getBody()->end("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<Response>
+            <Message>Your entry into " . $rs->getNameByCode($body['Body']) . " has been received!</Message>
             </Response>");
+            return $res;
+        }
 
-        return $res->end("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<Response />");
+        yield from $res->getBody()->end("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<Response />");
+        return $res;
     });
 
-    $app->route('GET', '/nexmo', functioN(Request $req, Response $res) use ($c) {
+    $app->addRoute('GET', '/nexmo', functioN(Request $req, Response $res) use ($c) {
         /** @var RaffleService $rs */
         $rs = $c['raffleService'];
-        $from = $req->getParam('msisdn');
-        $code = $req->getParam('text');
+        $uri = $req->getUri();
+        $from = $uri->getQueryValue('msisdn');
+        $code = $uri->getQueryValue('text');
 
-        if (yield from $rs->recordEntry($code, $from)) {
-            $c['sms']->send($from, 'Your entry into ' . (yield from $rs->getNameByCode($code)) . ' has been received!');
+        if ($rs->recordEntry($code, $from)) {
+            $c['sms']->send($from, 'Your entry into ' . $rs->getNameByCode($code) . ' has been received!');
         }
-        return $res->setStatus(200)->end('Message received.');
+        yield from $res->getBody()->end('Message received.');
+        return $res->withStatus(200);
     });
 
     // end of webhooks
 
-    $app->route('GET', '/', function (Request $req, Response $res) use ($c) {
+    $app->addRoute('GET', '/', function (Request $req, Response $res) use ($c) {
         return $c['view']->render($res, 'home.php');
     });
 
-    $app->route('POST', '/', function (Request $req, Response $res) use ($c) {
-        $body = yield Aerys\parseBody($req, 4096);
-        $items = trim($body->get('raffle_items'));
-        $name = trim($body->get('raffle_name'));
+    $app->addRoute('POST', '/', function (Request $req, Response $res) use ($c) {
+        parse_str(yield $req->getBody()->read(4096), $body);
+        $items = trim($body['raffle_items']);
+        $name = trim($body['raffle_name']);
 
         $errors = [];
 
@@ -54,24 +57,24 @@ return function(\Pimple\Container $c, \Aerys\Router $app) {
             return $c['view']->render($res, 'home.php',
                 ['raffleItems' => $items, 'raffleName' => $name, 'errors' => $errors]);
 
-        $id = yield from $c['raffleService']->create($name, explode("\n", trim($items)));
+        $id = $c['raffleService']->create($name, explode("\n", trim($items)));
 
-        $res->addHeader('Location', '/' . $id)->setCookie('sid' . $id, yield from $c['raffleService']->getSid($id))
-            ->setStatus(302)->end();
+        return $res->withHeader('Location', '/' . $id)->withStatus(302)
+            ->withCookie('sid' . $id, $c['raffleService']->getSid($id));
     });
 
-    $app->route('GET', '/{id}', function (Request $req, Response $res, array $args) use ($c) {
+    $app->addRoute('GET', '/{id}', function (Request $req, Response $res, array $args) use ($c) {
         $id = $args['id'];
         /** @var RaffleService $rs */
         $rs = $c['raffleService'];
 
-        if (!(yield from $rs->raffleExists($id)))
+        if (!$rs->raffleExists($id))
             return $c['view']->renderNotFound($res);
 
-        if ($req->getParam('show') === 'entrants') {
-            $output = ['is_complete' => yield from $rs->isComplete($id)];
+        if ($req->getUri()->getQueryValue('show') === 'entrants') {
+            $output = ['is_complete' => $rs->isComplete($id)];
 
-            $numbers = yield from $rs->getEntrantPhoneNumbers($id);
+            $numbers = $rs->getEntrantPhoneNumbers($id);
             $output['count'] = count($numbers);
 
             if ($c['auth']->isAuthorized($req, $id))
@@ -79,39 +82,37 @@ return function(\Pimple\Container $c, \Aerys\Router $app) {
                     return 'xxx-xxx-' . substr($number, -4);
                 }, $numbers);
 
-            return $res->end(json_encode($output));
+            yield from $res->getBody()->end(json_encode($output));
+            return $res;
         }
 
-        if (yield from $rs->isComplete($id))
-            return $c['view']->render($res, 'finished.php', ['raffleName' => yield from $rs->getName($id)]);
+        if ($rs->isComplete($id))
+            return $c['view']->render($res, 'finished.php', ['raffleName' => $rs->getName($id)]);
 
         return $c['view']->render($res, 'waiting.php', [
             'phoneNumber' => $rs->getPhoneNumber($id),
             'code' => $rs->getCode($id),
-            'entrantNumbers' => $c['auth']->isAuthorized($req, $id) ?
-                yield from $rs->getEntrantPhoneNumbers($id) : null,
-            'entrantCount' => yield from $rs->getEntrantCount($id)
+            'entrantNumbers' => $c['auth']->isAuthorized($req, $id) ? $rs->getEntrantPhoneNumbers($id) : null,
+            'entrantCount' => $rs->getEntrantCount($id)
         ]);
     });
 
-    $app->route('POST', '/{id}', function (Request $req, Response $res, array $args) use ($c) {
+    $app->addRoute('POST', '/{id}', function (Request $req, Response $res, array $args) use ($c) {
         $id = $args['id'];
         /** @var RaffleService $rs */
         $rs = $c['raffleService'];
 
-        if (!(yield from $rs->raffleExists($id)))
+        if (!$rs->raffleExists($id))
             return $c['view']->renderNotFound($res);
 
         if (!$c['auth']->isAuthorized($req, $id))
-            return $res->addHeader('Location', '/')->setStatus(302)->end();
+            return $res->withHeader('Location', '/')->withStatus(302);
 
-        $data = ['raffleName' => yield from $rs->getName($id)];
+        $data = ['raffleName' => $rs->getName($id)];
 
-        if (!(yield from $rs->isComplete($id)))
-            $data['winnerNumbers'] = yield from $rs->complete($id);
+        if (!$rs->isComplete($id))
+            $data['winnerNumbers'] = $rs->complete($id);
 
         return $c['view']->render($res, 'finished.php', $data);
     });
-
-    return $app;
 };
